@@ -4,7 +4,17 @@ function moduleProject3() {
 
   function buildNav(links) {
     //  ✨ do your magic here
-    return document.createElement('nav')
+    const nav = document.createElement('nav')
+    links.forEach(element => {
+      
+      const anchor = document.createElement('a')
+      anchor.href = element.href
+      anchor.title = element.title
+      anchor.textContent = element.textContent
+     nav.appendChild(anchor)
+    });
+    return nav
+    //return document.createElement('nav')
   }
 
   // ❗ DOM creation using your `buildNav` component (do not change):
@@ -20,6 +30,33 @@ function moduleProject3() {
 
   function buildLearnerCard(learner, languages) {
     //  ✨ do your magic here
+    const div = document.createElement('div')
+    div.classList = 'learner-card'
+    div.addEventListener('click', evt =>{
+      if(document.querySelector('.active') !== null)
+    {document.querySelector('.active').classList.remove('active')}
+    div.classList.add('active') }
+    )
+      const name = document.createElement('p')
+      const id = document.createElement('p')
+      const dob = document.createElement('p')
+      const fav = document.createElement('p')
+      name.textContent = learner.fullName
+      id.textContent = `Learner ID: ${learner.id}`
+      dob.textContent = `Date of Birth: ${learner.dateOfBirth}`
+      languages.forEach( lang => {
+        if( lang.id == learner.favLanguage){
+          fav.textContent =`Favorite Language: ${lang.name}`
+
+        }
+      })
+      
+      div.appendChild(name)
+      div.appendChild(id)
+      div.appendChild(dob)
+      div.appendChild(fav)
+      document.querySelector('section').appendChild(div)
+    
   }
 
   {
@@ -40,13 +77,60 @@ function moduleProject3() {
       { id: 17, fullName: 'Daniel Castillo', dateOfBirth: '1995-11-05', favLanguage: 12 }
     ]
     //  ✨ do your magic here
+    learners.forEach( learner => buildLearnerCard(learner, languages))
   }
 
   // 👉 TASK 3 - Write a `buildFooter` component that returns a footer
 
   function buildFooter(footerData) {
     //  ✨ do your magic here
-    return document.createElement('footer')
+
+    const footer = document.createElement('footer')
+    const company = document.createElement('div')
+    const social = document.createElement('div')
+    const tag = document.createElement('div')
+
+    footer.appendChild(company)
+    footer.appendChild(social)
+    footer.appendChild(tag)
+
+    company.classList = 'company-info'
+    social.classList = 'social-media'
+
+    const companyName = document.createElement('p')
+    const companyAdd = document.createElement('p')
+    const companyCont = document.createElement('p')
+
+    company.appendChild(companyName)
+    company.appendChild(companyAdd)
+    company.appendChild(companyCont)
+
+    companyName.textContent = footerData.companyName
+    companyName.classList = 'company-name'
+
+    companyAdd.textContent = footerData.address
+    companyAdd.classList = 'address'
+
+    companyCont.classList = 'contact-email'
+
+    const link = document.createElement('a')
+    link.href = `mailto:${footerData.contactEmail}`
+    link.textContent =footerData.contactEmail
+
+    companyCont.textContent = `Email: `
+    companyCont.appendChild(link)
+    for(let obj in footerData.socialMedia){
+      let string = String(obj)
+      let modString = string[0].toUpperCase() + string.slice(1)
+     const anchor = document.createElement('a')
+      social.appendChild(anchor)
+      anchor.href = footerData.socialMedia[obj]
+      anchor.textContent = modString
+    }
+    const currentYear = new Date().getFullYear()
+
+    tag.textContent = `© ${footerData.companyName.toUpperCase()} ${currentYear}`
+    return footer
   }
 
   // ❗ DOM creation using your `buildFooter` component (do not change):
@@ -62,7 +146,14 @@ function moduleProject3() {
   }))
 
   // 👉 TASK 4 - Clicking on the section should deactivate the active card
-
+ document.querySelector('section').addEventListener('click', evt => {
+  const section = document.querySelector('section')
+  //console.log(evt.target)
+  if(evt.target === section){
+    if(document.querySelector('.active') !== null)
+    {document.querySelector('.active').classList.remove('active')}
+  }
+ })
   //  ✨ do your magic here
 }
 
